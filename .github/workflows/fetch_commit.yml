@@ -1,0 +1,22 @@
+name: Fetch Latest Commit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  fetch-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run PowerShell Script
+        run: pwsh ./scripts/fetch_commit.ps1
+        shell: pwsh

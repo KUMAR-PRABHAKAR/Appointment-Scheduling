@@ -29,6 +29,7 @@ jobs:
 
       - name: Run unit tests
         run: dotnet test --no-build --verbosity normal
+<<<<<<< HEAD
 
       - name: Fetch Latest Commit Details
         run: pwsh fetch_commit.ps1
@@ -36,3 +37,9 @@ jobs:
 
 
 
+=======
+        
+      - name: Fetch Latest Commit Details
+        run: pwsh fetch_commit.ps1
+        shell: pwsh
+>>>>>>> 4da49c5 (Added GitHub Actions workflow to fetch commit details)
