@@ -5,7 +5,7 @@ $repoName = "Appointment-Scheduling"
 $branchName = "main"
 
 # GitHub Token (from Secrets in GitHub Actions)
-$myToken = "${{ secrets.GITHUB_TOKEN }}"
+$myToken = "$($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)"
 
 # Set Headers for API Request
 $header = @{
