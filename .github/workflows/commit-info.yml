@@ -19,9 +19,9 @@ jobs:
         run: pwsh --version  # Verify PowerShell is installed
 
       - name: Fetch Commit Details
-        run: pwsh -File ./fetch_commit.ps1
+        run: pwsh ./scripts/fetch_commit.ps1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for API requests
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
 
       - name: Upload Commit Details
         uses: actions/upload-artifact@v4
