@@ -26,5 +26,8 @@ jobs:
       - name: Upload Commit Details
         uses: actions/upload-artifact@v4
         with:
-          name: commit-details
-          path: ./commit-details.json
+      - name: commit-details
+        path: ./commit-details.json
+ 
+      - name: Print Commit Details
+        run: cat commit-details.json

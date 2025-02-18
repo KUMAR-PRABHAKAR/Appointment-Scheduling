@@ -39,6 +39,6 @@ $commitDetails = @{
 }
 
 # Convert to JSON and Save to a File
-$commitDetails | ConvertTo-Json -Depth 2 | Out-File "commit-details.json"
+$commitDetails | ConvertTo-Json -Depth 2 | Out-File -Encoding utf8 "commit-details.json"
 
 Write-Host "Commit details saved to commit-details.json"
