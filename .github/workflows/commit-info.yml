@@ -13,21 +13,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch at least 2 commits to compare changes
+          fetch-depth: 0  # Fetch full commit history
 
       - name: Set up PowerShell
         run: pwsh --version  # Verify PowerShell is installed
 
       - name: Fetch Commit Details
-        run: pwsh ./scripts/fetch_commit.ps1
+        run: pwsh -ExecutionPolicy Bypass -File ./scripts/fetch_commit.ps1
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
 
       - name: Upload Commit Details
         uses: actions/upload-artifact@v4
         with:
-      - name: commit-details
-        path: ./commit-details.json
- 
+          name: commit-details
+          path: ./commit-details.json  # Correct indentation
+
       - name: Print Commit Details
-        run: cat commit-details.json
+        run: cat ./commit-details.json  # Added correct file path
