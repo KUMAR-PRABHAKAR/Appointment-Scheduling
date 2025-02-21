@@ -3,7 +3,7 @@ name: Fetch Commit Details
 on:
   push:
     branches:
-      - main  # ✅ Fixed spacing issue in branch name
+      - main  # ✅ Corrected YAML spacing
 
 jobs:
   fetch_commit_details:
