@@ -1,94 +1,33 @@
-# Set GitHub API URL and repository details
-$orgURL = "https://api.github.com"
-$repoOwner = "KUMAR-PRABHAKAR"  # Update with your actual GitHub username
-$repoName = "Appointment-Scheduling"  # Update with your actual repository name
-$branchName = "main"
+name: Fetch Commit Details
 
-# Get the GitHub Token from environment variables
-$myToken = "$env:MY_GITHUB_TOKEN"  # Ensure this matches your workflow
+on:
+  push:
+    branches:
+      - main  # Change this to your working branch
 
-# Validate that the token exists
-if ([string]::IsNullOrEmpty($myToken)) {
-    Write-Host "ERROR: GitHub Token is missing!"
-    exit 1
-}
+jobs:
+  fetch_commit_details:
+    runs-on: windows-latest  # Using Windows since it's a .NET Framework project
 
-# Set Headers for API Request
-$header = @{
-    Authorization = "token $($myToken)"
-    Accept        = "application/vnd.github.v3+json"
-}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch full commit history
 
-# Fetch latest commits from GitHub
-$shelveSetURL = "$orgURL/repos/$repoOwner/$repoName/commits?sha=$branchName"
-Write-Host "Fetching commits from: $shelveSetURL"
+      - name: Set up PowerShell
+        run: pwsh --version  # Verify PowerShell is installed
 
-try {
-    $shelveSetinfo = Invoke-RestMethod -Uri $shelveSetURL -Method Get -ContentType "application/json" -Headers $header
-} catch {
-    Write-Host "ERROR: Failed to fetch commits from GitHub API. $_"
-    exit 1
-}
+      - name: Fetch Commit Details
+        run: pwsh -ExecutionPolicy Bypass -File ./scripts/fetch_commit.ps1
+        env:
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
 
-# Debug: Print the full response
-Write-Host "Response from Commit API:"
-$shelveSetinfo | ConvertTo-Json -Depth 3
+      - name: Upload Commit Details
+        uses: actions/upload-artifact@v4
+        with:
+          name: commit-details
+          path: ./commit-details.json  # Correct indentation
 
-# Validate response before extracting commit data
-if ($shelveSetinfo.Count -eq 0) {
-    Write-Host "No commit data received."
-    exit 1
-}
-
-# Extract latest commit details
-$latestCommit = $shelveSetinfo[0]
-$commitSha = $latestCommit.sha
-$commitMessage = $latestCommit.commit.message
-$commitAuthor = $latestCommit.commit.author.name
-$commitDate = $latestCommit.commit.author.date
-
-# Validate commit details
-if ([string]::IsNullOrEmpty($commitSha)) {
-    Write-Host "ERROR: No commit SHA found."
-    exit 1
-}
-
-# Fetch commit details, including changed files
-$commitURL = "$orgURL/repos/$repoOwner/$repoName/commits/$commitSha"
-Write-Host "Fetching commit details from: $commitURL"
-
-try {
-    $commitInfo = Invoke-RestMethod -Uri $commitURL -Method Get -ContentType "application/json" -Headers $header
-} catch {
-    Write-Host "ERROR: Failed to fetch commit details. $_"
-    exit 1
-}
-
-# Debug: Print the commit response
-Write-Host "Response from Commit Details API:"
-$commitInfo | ConvertTo-Json -Depth 3
-
-# Extract changed files
-if ($commitInfo.PSObject.Properties["files"] -ne $null) {
-    $changedFiles = $commitInfo.files | ForEach-Object { $_.filename }
-} else {
-    Write-Host "No changed files found in commit."
-    $changedFiles = @()
-}
-
-# Store Details in an Array
-$commitDetails = @{
-    CommitSHA     = $commitSha
-    CommitMessage = $commitMessage
-    CommitAuthor  = $commitAuthor
-    CommitDate    = $commitDate
-    ChangedFiles  = $changedFiles
-}
-
-# Convert to JSON and Save to a File
-$jsonOutput = $commitDetails | ConvertTo-Json -Depth 3
-Write-Host "Generated JSON Data:"
-Write-Host $jsonOutput
-
-$jsonOutput | Out-File -Encoding utf8 "commit-details.json"
-Write-Host "Commit details saved to commit-details.json"
+      - name: Print Commit Details
+        run: cat ./commit-details.json  # Added correct file path

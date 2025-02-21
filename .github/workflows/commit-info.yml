@@ -21,7 +21,7 @@ jobs:
       - name: Fetch Commit Details
         run: pwsh -ExecutionPolicy Bypass -File ./scripts/fetch_commit.ps1
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
 
       - name: Upload Commit Details
         uses: actions/upload-artifact@v4
