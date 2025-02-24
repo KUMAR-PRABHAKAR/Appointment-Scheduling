@@ -45,7 +45,10 @@ $commitAuthor = $latestCommit.commit.author.name
 $commitDate = $latestCommit.commit.author.date
 
 # Debugging output
-Write-Host "🔍 Latest Commit SHA: $commitSha"
+Write-Host "🔍 Latest Commit SHA: $($latestCommit.sha)"
+Write-Host "🔍 Latest Commit Message: $($latestCommit.commit.message)"
+Write-Host "🔍 Latest Commit Author: $($latestCommit.commit.author.name)"
+
 
 # Validate commit details
 if ([string]::IsNullOrEmpty($commitSha)) {
@@ -63,6 +66,10 @@ try {
     Write-Host "❌ ERROR: Failed to fetch commit details. $_"
     exit 1
 }
+
+Write-Host "🔍 API Response from GitHub:"
+$shelveSetinfo | ConvertTo-Json -Depth 3  # Print full API response for debugging
+
 
 # Extract changed files
 $changedFiles = if ($commitInfo.PSObject.Properties["files"] -ne $null) {

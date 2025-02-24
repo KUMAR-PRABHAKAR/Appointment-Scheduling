@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2  # ✅ Ensures GitHub fetches at least 2 commits (prevents caching issues)
+          fetch-depth: 0  # ✅ Ensures GitHub fetches all commits (prevents caching issues)
 
       - name: Set up PowerShell
         run: pwsh --version  # ✅ Verify PowerShell is installed
