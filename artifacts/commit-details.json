@@ -1,68 +1,10 @@
 [
-  {
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitDate": "2025-02-24T06:32:42Z",
-    "CommitMessage": "change fetch_commit file extension to yml from ps1",
-    "ChangedFiles": [
-      "scripts/fetch_commit.yml",
-      "scripts/testing.txt"
-    ],
-    "CommitSHA": "529b5b9b96020ae794e7e1ed354f8a7ead34bb91"
-  },
-  {
-    "ChangedFiles": "scripts/fetch_commit.ps1",
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitMessage": "changes to fetch_commit file",
-    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a",
-    "CommitDate": "2025-02-24T09:59:10Z"
-  },
-  {
-    "CommitMessage": "changes to fetch_commit file",
-    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a",
-    "CommitDate": "2025-02-24T09:59:10Z",
-    "CommitAuthor": "Kumar Prabhakar",
-    "ChangedFiles": "scripts/fetch_commit.ps1"
-  },
-  {
-    "ChangedFiles": "scripts/fetch_commit.ps1",
-    "CommitMessage": "changes to fetch_commit file",
-    "CommitDate": "2025-02-24T09:59:10Z",
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a"
-  },
-  {
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitSHA": "5b3be187da070943a02292567001a0c230cfd0ba",
-    "ChangedFiles": "testing.txt",
-    "CommitDate": "2025-02-24T10:30:49Z",
-    "CommitMessage": "deleted the testing txt file"
-  },
-  {
-    "ChangedFiles": ".github/workflows/dotnet.yml",
-    "CommitSHA": "2b971fa495d16bc5ee49dcd237d19ec313081256",
-    "CommitDate": "2025-02-24T11:36:25Z",
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitMessage": "small change"
-  },
+  null,
   {
     "ChangedFiles": "artifacts/commit-details.json",
     "CommitAuthor": "Kumar Prabhakar",
-    "CommitDate": "2025-02-24T11:41:54Z",
-    "CommitMessage": "Merge branch 'main' of https://github.com/KUMAR-PRABHAKAR/Appointment-Scheduling",
-    "CommitSHA": "0cb0ed28c615b680096e7e23353ee069ffe0361b"
-  },
-  {
-    "ChangedFiles": "artifacts/commit-details.json",
-<<<<<<< HEAD
-    "CommitDate": "2025-02-24T11:52:20Z",
-    "CommitMessage": "🤖 Update commit-details.json after workflow run",
-    "CommitSHA": "446b4e124ce2b5ceafe8a647a240d8bd9ef47510",
-    "CommitAuthor": "github-actions[bot]"
-=======
-    "CommitMessage": "Merge branch 'main' of https://github.com/KUMAR-PRABHAKAR/Appointment-Scheduling",
-    "CommitAuthor": "Kumar Prabhakar",
-    "CommitSHA": "b1de5fa6fb343edba6330d2e02e5dcc1a4a73ac7",
-    "CommitDate": "2025-02-24T11:51:00Z"
->>>>>>> 446b4e124ce2b5ceafe8a647a240d8bd9ef47510
+    "CommitDate": "2025-02-24T11:57:36Z",
+    "CommitMessage": "some changes",
+    "CommitSHA": "37766b41be1de036e082f510a1de57a45d169d2e"
   }
 ]
