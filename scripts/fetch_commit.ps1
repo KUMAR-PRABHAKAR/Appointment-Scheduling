@@ -88,8 +88,8 @@ $commitDetails = @{
 }
 
 # Define the JSON output file path inside artifacts folder
-$artifactFolder = "C:\Users\kumar\Desktop\Appointment-Scheduling-master\artifacts"
-$jsonFilePath = "$artifactFolder\commit-details.json"
+$artifactFolder = "$env:GITHUB_WORKSPACE/artifacts"
+$jsonFilePath = "$artifactFolder/commit-details.json"
 
 # Ensure the artifacts folder exists
 if (-Not (Test-Path $artifactFolder)) {
@@ -103,3 +103,12 @@ Write-Host $jsonOutput
 
 $jsonOutput | Out-File -Encoding utf8 $jsonFilePath
 Write-Host "✅ Commit details saved to: $jsonFilePath"
+
+# ✅ Verify that the file was created
+if (-Not (Test-Path $jsonFilePath)) {
+    Write-Host "❌ ERROR: commit-details.json was NOT created!"
+    exit 1
+} else {
+    Write-Host "✅ commit-details.json successfully created at: $jsonFilePath"
+}
+

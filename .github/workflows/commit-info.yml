@@ -27,7 +27,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: commit-details
-          path: ./commit-details.json  # Correct indentation
+          path: artifacts/commit-details.json  # ✅ Corrected path
+        
 
       - name: Print Commit Details
         run: cat ./commit-details.json  # Added correct file path
+
+      - name: Debug - List Files
+        run: ls -R
