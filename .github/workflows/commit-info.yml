@@ -34,3 +34,12 @@ jobs:
 
       - name: Print Commit Details
         run: cat artifacts/commit-details.json  # ✅ Corrected file path
+      - name: Commit & Push Updated JSON to GitHub
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add artifacts/commit-details.json
+          git commit -m "🤖 Update commit-details.json after workflow run"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ GitHub token to authenticate push
