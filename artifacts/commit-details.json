@@ -43,5 +43,12 @@
     "CommitDate": "2025-02-24T11:36:25Z",
     "CommitAuthor": "Kumar Prabhakar",
     "CommitMessage": "small change"
+  },
+  {
+    "ChangedFiles": "artifacts/commit-details.json",
+    "CommitAuthor": "Kumar Prabhakar",
+    "CommitDate": "2025-02-24T11:41:54Z",
+    "CommitMessage": "Merge branch 'main' of https://github.com/KUMAR-PRABHAKAR/Appointment-Scheduling",
+    "CommitSHA": "0cb0ed28c615b680096e7e23353ee069ffe0361b"
   }
 ]
