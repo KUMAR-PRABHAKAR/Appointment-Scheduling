@@ -1,11 +1,11 @@
 # Set GitHub API URL and repository details
 $orgURL = "https://api.github.com"
-$repoOwner = "KUMAR-PRABHAKAR"  # ✅ Update with your GitHub username
-$repoName = "Appointment-Scheduling"  # ✅ Update with your repo name
-$branchName = "main"  # ✅ Change if you're using a different branch
+$repoOwner = "KUMAR-PRABHAKAR"  # ✅ Your GitHub username
+$repoName = "Appointment-Scheduling"  # ✅ Your repository name
+$branchName = "main"  # ✅ Your working branch
 
 # Get the GitHub Token from environment variables
-$myToken = $env:MY_GITHUB_TOKEN  # ✅ This should be set in GitHub Actions or your local environment
+$myToken = $env:MY_GITHUB_TOKEN
 
 # Validate if the GitHub token exists
 if ([string]::IsNullOrEmpty($myToken)) {
@@ -32,17 +32,12 @@ try {
     exit 1
 }
 
-# Debug: Print API response
-Write-Host "🔍 Response from Commit API:"
-$shelveSetinfo | ConvertTo-Json -Depth 3
-
-# Validate response before extracting commit data
+# Extract latest commit details
 if ($shelveSetinfo.Count -eq 0) {
     Write-Host "❌ ERROR: No commit data received."
     exit 1
 }
 
-# Extract latest commit details
 $latestCommit = $shelveSetinfo[0]
 $commitSha = $latestCommit.sha
 $commitMessage = $latestCommit.commit.message
@@ -66,16 +61,12 @@ try {
     exit 1
 }
 
-# Debug: Print the commit response
-Write-Host "🔍 Response from Commit Details API:"
-$commitInfo | ConvertTo-Json -Depth 3
-
 # Extract changed files
-if ($commitInfo.PSObject.Properties["files"] -ne $null) {
-    $changedFiles = $commitInfo.files | ForEach-Object { $_.filename }
+$changedFiles = if ($commitInfo.PSObject.Properties["files"] -ne $null) {
+    $commitInfo.files | ForEach-Object { $_.filename }
 } else {
     Write-Host "⚠️ No changed files found in commit."
-    $changedFiles = @()
+    @()
 }
 
 # Store Details in an Array
@@ -87,28 +78,22 @@ $commitDetails = @{
     ChangedFiles  = $changedFiles
 }
 
-# Define the JSON output file path inside artifacts folder
+# Define the JSON output file path using GitHub Actions workspace
 $artifactFolder = "$env:GITHUB_WORKSPACE/artifacts"
 $jsonFilePath = "$artifactFolder/commit-details.json"
 
-# Ensure the artifacts folder exists
+# Ensure artifacts folder exists
 if (-Not (Test-Path $artifactFolder)) {
     New-Item -ItemType Directory -Path $artifactFolder | Out-Null
 }
 
-# Convert to JSON and Save to a File
-$jsonOutput = $commitDetails | ConvertTo-Json -Depth 3
-Write-Host "✅ Generated JSON Data:"
-Write-Host $jsonOutput
+# Save JSON file
+$commitDetails | ConvertTo-Json -Depth 3 | Out-File -Encoding utf8 $jsonFilePath
 
-$jsonOutput | Out-File -Encoding utf8 $jsonFilePath
-Write-Host "✅ Commit details saved to: $jsonFilePath"
-
-# ✅ Verify that the file was created
+# Verify that the file was created
 if (-Not (Test-Path $jsonFilePath)) {
     Write-Host "❌ ERROR: commit-details.json was NOT created!"
     exit 1
 } else {
     Write-Host "✅ commit-details.json successfully created at: $jsonFilePath"
 }
-

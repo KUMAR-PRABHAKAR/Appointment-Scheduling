@@ -23,15 +23,14 @@ jobs:
         env:
           MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
 
+      - name: Debug - List Files
+        run: ls -R  # ✅ Check all files before printing commit details
+
       - name: Upload Commit Details
         uses: actions/upload-artifact@v4
         with:
           name: commit-details
           path: artifacts/commit-details.json  # ✅ Corrected path
-        
 
       - name: Print Commit Details
-        run: cat ./commit-details.json  # Added correct file path
-
-      - name: Debug - List Files
-        run: ls -R
+        run: cat artifacts/commit-details.json  # ✅ Corrected file path
