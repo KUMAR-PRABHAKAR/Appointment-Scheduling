@@ -1,10 +1,33 @@
-{
-  "CommitAuthor": "Kumar Prabhakar",
-  "CommitDate": "2025-02-24T06:32:42Z",
-  "CommitMessage": "change fetch_commit file extension to yml from ps1",
-  "ChangedFiles": [
-    "scripts/fetch_commit.yml",
-    "scripts/testing.txt"
-  ],
-  "CommitSHA": "529b5b9b96020ae794e7e1ed354f8a7ead34bb91"
-}
+[
+  {
+    "CommitAuthor": "Kumar Prabhakar",
+    "CommitDate": "2025-02-24T06:32:42Z",
+    "CommitMessage": "change fetch_commit file extension to yml from ps1",
+    "ChangedFiles": [
+      "scripts/fetch_commit.yml",
+      "scripts/testing.txt"
+    ],
+    "CommitSHA": "529b5b9b96020ae794e7e1ed354f8a7ead34bb91"
+  },
+  {
+    "ChangedFiles": "scripts/fetch_commit.ps1",
+    "CommitAuthor": "Kumar Prabhakar",
+    "CommitMessage": "changes to fetch_commit file",
+    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a",
+    "CommitDate": "2025-02-24T09:59:10Z"
+  },
+  {
+    "CommitMessage": "changes to fetch_commit file",
+    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a",
+    "CommitDate": "2025-02-24T09:59:10Z",
+    "CommitAuthor": "Kumar Prabhakar",
+    "ChangedFiles": "scripts/fetch_commit.ps1"
+  },
+  {
+    "ChangedFiles": "scripts/fetch_commit.ps1",
+    "CommitMessage": "changes to fetch_commit file",
+    "CommitDate": "2025-02-24T09:59:10Z",
+    "CommitAuthor": "Kumar Prabhakar",
+    "CommitSHA": "bcb29608ef394061ab7b68749b32b039dde3d10a"
+  }
+]
