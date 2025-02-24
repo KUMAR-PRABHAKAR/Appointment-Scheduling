@@ -22,7 +22,7 @@ $header = @{
 }
 
 # Force GitHub API to fetch the latest commit by adding a timestamp
-$shelveSetURL = "$orgURL/repos/$repoOwner/$repoName/commits?sha=$branchName&timestamp=$(Get-Date -UFormat %s)"
+$shelveSetURL = "$orgURL/repos/$repoOwner/$repoName/commits?sha=$branchName&nocache=$(Get-Date -UFormat %s)"
 Write-Host "🔍 Fetching latest commits from: $shelveSetURL"
 
 try {
@@ -45,16 +45,8 @@ $commitAuthor = $latestCommit.commit.author.name
 $commitDate = $latestCommit.commit.author.date
 
 # Debugging output
-Write-Host "🔍 Latest Commit SHA: $($latestCommit.sha)"
-Write-Host "🔍 Latest Commit Message: $($latestCommit.commit.message)"
-Write-Host "🔍 Latest Commit Author: $($latestCommit.commit.author.name)"
-
-
-# Validate commit details
-if ([string]::IsNullOrEmpty($commitSha)) {
-    Write-Host "❌ ERROR: No commit SHA found."
-    exit 1
-}
+Write-Host "🔍 Latest Commit SHA: $commitSha"
+Write-Host "🔍 Latest Commit Message: $commitMessage"
 
 # Fetch commit details, including changed files
 $commitURL = "$orgURL/repos/$repoOwner/$repoName/commits/$commitSha"
@@ -67,10 +59,6 @@ try {
     exit 1
 }
 
-Write-Host "🔍 API Response from GitHub:"
-$shelveSetinfo | ConvertTo-Json -Depth 3  # Print full API response for debugging
-
-
 # Extract changed files
 $changedFiles = if ($commitInfo.PSObject.Properties["files"] -ne $null) {
     $commitInfo.files | ForEach-Object { $_.filename }
@@ -79,8 +67,8 @@ $changedFiles = if ($commitInfo.PSObject.Properties["files"] -ne $null) {
     @()
 }
 
-# Store Details in an Array
-$commitDetails = @{
+# Store the new commit details
+$newCommit = @{
     CommitSHA     = $commitSha
     CommitMessage = $commitMessage
     CommitAuthor  = $commitAuthor
@@ -104,16 +92,27 @@ if (-Not (Test-Path $artifactFolder)) {
     New-Item -ItemType Directory -Path $artifactFolder | Out-Null
 }
 
-# Remove old file before writing new commit details
+# Read existing commit details if the file already exists
 if (Test-Path $jsonFilePath) {
-    Remove-Item -Path $jsonFilePath -Force
-    Write-Host "🔄 Old commit-details.json deleted."
+    Write-Host "🔄 commit-details.json exists. Reading existing data..."
+    $existingData = Get-Content -Raw -Path $jsonFilePath | ConvertFrom-Json
+} else {
+    Write-Host "🆕 commit-details.json does not exist. Creating a new one."
+    $existingData = @()
 }
 
-# Save JSON file
-$commitDetails | ConvertTo-Json -Depth 3 | Set-Content -Encoding utf8 $jsonFilePath
-Write-Host "✅ commit-details.json successfully updated at: $jsonFilePath"
+# Ensure $existingData is an array
+if ($existingData -isnot [System.Collections.IEnumerable]) {
+    $existingData = @($existingData)
+}
+
+# Append the new commit details
+$updatedData = $existingData + $newCommit
+
+# Save updated commit details to the JSON file
+$updatedData | ConvertTo-Json -Depth 3 | Set-Content -Encoding utf8 $jsonFilePath
+Write-Host "✅ commit-details.json successfully updated with new commit at: $jsonFilePath"
 
 # Debugging output: Print file contents
-Write-Host "🔍 New commit-details.json content:"
+Write-Host "🔍 Updated commit-details.json content:"
 Get-Content $jsonFilePath
