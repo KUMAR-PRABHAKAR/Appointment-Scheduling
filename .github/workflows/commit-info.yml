@@ -13,15 +13,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch full commit history
+          fetch-depth: 2  # ✅ Ensures GitHub fetches at least 2 commits (prevents caching issues)
 
       - name: Set up PowerShell
-        run: pwsh --version  # Verify PowerShell is installed
+        run: pwsh --version  # ✅ Verify PowerShell is installed
 
       - name: Fetch Commit Details
         run: pwsh -ExecutionPolicy Bypass -File ./scripts/fetch_commit.ps1
         env:
-          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # Use GitHub token for API requests
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # ✅ Use GitHub token for API requests
 
       - name: Debug - List Files
         run: ls -R  # ✅ Check all files before printing commit details

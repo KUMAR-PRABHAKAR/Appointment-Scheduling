@@ -21,9 +21,9 @@ $header = @{
     Accept        = "application/vnd.github.v3+json"
 }
 
-# Fetch latest commits from GitHub
-$shelveSetURL = "$orgURL/repos/$repoOwner/$repoName/commits?sha=$branchName"
-Write-Host "🔍 Fetching commits from: $shelveSetURL"
+# Force GitHub API to fetch the latest commit by adding a timestamp
+$shelveSetURL = "$orgURL/repos/$repoOwner/$repoName/commits?sha=$branchName&timestamp=$(Get-Date -UFormat %s)"
+Write-Host "🔍 Fetching latest commits from: $shelveSetURL"
 
 try {
     $shelveSetinfo = Invoke-RestMethod -Uri $shelveSetURL -Method Get -ContentType "application/json" -Headers $header
@@ -43,6 +43,9 @@ $commitSha = $latestCommit.sha
 $commitMessage = $latestCommit.commit.message
 $commitAuthor = $latestCommit.commit.author.name
 $commitDate = $latestCommit.commit.author.date
+
+# Debugging output
+Write-Host "🔍 Latest Commit SHA: $commitSha"
 
 # Validate commit details
 if ([string]::IsNullOrEmpty($commitSha)) {
@@ -78,8 +81,15 @@ $commitDetails = @{
     ChangedFiles  = $changedFiles
 }
 
-# Define the JSON output file path using GitHub Actions workspace
-$artifactFolder = "$env:GITHUB_WORKSPACE/artifacts"
+# Determine correct workspace path for local vs GitHub Actions
+if ($env:GITHUB_WORKSPACE) {
+    # Running inside GitHub Actions
+    $artifactFolder = "$env:GITHUB_WORKSPACE/artifacts"
+} else {
+    # Running locally
+    $artifactFolder = "C:\Users\kumar\Desktop\Appointment-Scheduling-master\artifacts"
+}
+
 $jsonFilePath = "$artifactFolder/commit-details.json"
 
 # Ensure artifacts folder exists
@@ -87,13 +97,16 @@ if (-Not (Test-Path $artifactFolder)) {
     New-Item -ItemType Directory -Path $artifactFolder | Out-Null
 }
 
-# Save JSON file
-$commitDetails | ConvertTo-Json -Depth 3 | Out-File -Encoding utf8 $jsonFilePath
-
-# Verify that the file was created
-if (-Not (Test-Path $jsonFilePath)) {
-    Write-Host "❌ ERROR: commit-details.json was NOT created!"
-    exit 1
-} else {
-    Write-Host "✅ commit-details.json successfully created at: $jsonFilePath"
+# Remove old file before writing new commit details
+if (Test-Path $jsonFilePath) {
+    Remove-Item -Path $jsonFilePath -Force
+    Write-Host "🔄 Old commit-details.json deleted."
 }
+
+# Save JSON file
+$commitDetails | ConvertTo-Json -Depth 3 | Set-Content -Encoding utf8 $jsonFilePath
+Write-Host "✅ commit-details.json successfully updated at: $jsonFilePath"
+
+# Debugging output: Print file contents
+Write-Host "🔍 New commit-details.json content:"
+Get-Content $jsonFilePath
