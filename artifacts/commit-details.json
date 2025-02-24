@@ -1,0 +1,10 @@
+{
+  "CommitAuthor": "Kumar Prabhakar",
+  "CommitDate": "2025-02-24T06:32:42Z",
+  "CommitMessage": "change fetch_commit file extension to yml from ps1",
+  "ChangedFiles": [
+    "scripts/fetch_commit.yml",
+    "scripts/testing.txt"
+  ],
+  "CommitSHA": "529b5b9b96020ae794e7e1ed354f8a7ead34bb91"
+}
