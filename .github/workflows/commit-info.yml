@@ -35,12 +35,12 @@ jobs:
       - name: Print Commit Details
         run: cat artifacts/commit-details.json  # ✅ Print commit changes
         
-      - name: Commit & Push Updated JSON to GitHub    # ✅ Using github bot to update commit-details.json file
+      - name: Commit & Push Updated JSON to GitHub
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "Kumar Prabhakar"
+          git config --global user.email "kumarprabhakarsunny872@gmail.com"
           git add artifacts/commit-details.json
           git commit -m "🤖 Update commit-details.json after workflow run"
-          git push origin main
+          git push https://MY_GITHUB_TOKEN@github.com/KUMAR-PRABHAKAR/Appointment-Scheduling.git
         env:
-          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}  # ✅ GitHub token to authenticate push
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
