@@ -35,7 +35,7 @@ jobs:
       - name: Print Commit Details
         run: cat artifacts/commit-details.json  # ✅ Print commit changes
         
-      - name: Commit & Push Updated JSON to GitHub
+      - name: Commit & Push Updated JSON to GitHub    # ✅ Using github bot to update commit-details.json file
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
