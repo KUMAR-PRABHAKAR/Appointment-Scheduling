@@ -6,5 +6,12 @@
     "CommitDate": "2025-02-24T11:57:36Z",
     "CommitMessage": "some changes",
     "CommitSHA": "37766b41be1de036e082f510a1de57a45d169d2e"
+  },
+  {
+    "CommitAuthor": "KUMAR-PRABHAKAR",
+    "ChangedFiles": ".github/workflows/commit-info.yml",
+    "CommitDate": "2025-02-26T07:09:59Z",
+    "CommitMessage": "Update commit-info file",
+    "CommitSHA": "d0d1b436718165ad4a253ed105f1577b2be13376"
   }
 ]
